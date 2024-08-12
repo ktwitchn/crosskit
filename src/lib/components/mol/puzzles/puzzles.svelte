@@ -1,37 +1,28 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import { createPuzzle } from '$lib/helpers/puzzlehelper';
+	import { puzzles, type Puzzle } from '$lib/stores/puzzles';
 
-	let puzzles = [
-		{
-			name: 'Classic Crossword',
-			description: 'A traditional crossword puzzle with a mix of general knowledge and trivia.'
-		},
-		{
-			name: 'Themed Crossword: Movies',
-			description: 'A crossword puzzle with clues and answers all related to popular movies.'
-		},
-		{
-			name: 'Cryptic Crossword',
-			description: 'A challenging crossword where the clues are riddles or wordplay.'
-		},
-		{
-			name: 'Mini Crossword',
-			description: 'A smaller, quicker crossword for a brief brain exercise.'
-		},
-		{
-			name: 'Trivia Crossword: History',
-			description: 'A crossword puzzle with questions focused on historical events and figures.'
-		}
-	];
+	let puzzles_val: Puzzle[];
+	puzzles.subscribe((value) => (puzzles_val = value));
+
+	const handleCreatePuzzle = () => {
+		puzzles.update((prev) => [createPuzzle('new name', 'newer description'), ...prev]);
+	};
 </script>
 
 <div class="puzzles-container">
-	<h2
-		class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
-	>
-		Puzzles
-	</h2>
-	{#each puzzles as puzzle}
+	<div class="flex justify-between">
+		<h2
+			class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+		>
+			Puzzles
+		</h2>
+		<Button on:click={handleCreatePuzzle}>New</Button>
+	</div>
+
+	{#each puzzles_val as puzzle}
 		<Card.Root>
 			<Card.Header>
 				<Card.Title>{puzzle.name}</Card.Title>
