@@ -1,30 +1,26 @@
 import { writable } from 'svelte/store';
 
-export type Puzzle = {
+export type IPuzzle = {
+	id: string;
 	name: string;
-	description: string;
-	clues: Clue[];
-	cells: Cell[];
+	description?: string;
+	clues: IClue[];
+	cells: ICell[];
 };
 
-export type Clue = {
+export type IClue = {
 	number: string;
 	value: string;
 	direction: 'across' | 'down';
 };
 
-export type Cell = {
+export type ICell = {
 	id: string;
 	value: string;
 	disabled: boolean;
 	clueNumber: string | undefined;
 };
 
-const puzzle: Puzzle = {
-	name: 'Dummy puzzle',
-	description: 'this is hard coded',
-	clues: [],
-	cells: []
-};
+export const puzzles = writable<IPuzzle[]>([]);
 
-export const puzzles = writable<Puzzle[]>([puzzle]);
+export const selected_puzzle = writable<IPuzzle>(undefined);

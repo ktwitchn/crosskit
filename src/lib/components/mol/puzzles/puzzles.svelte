@@ -3,13 +3,19 @@
 	import * as Card from '$lib/components/ui/card';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { createPuzzle } from '$lib/helpers/puzzlehelper';
-	import { puzzles, type Puzzle } from '$lib/stores/puzzles';
+	import { puzzles, selected_puzzle, type IPuzzle } from '$lib/stores/puzzles';
 
-	let puzzles_val: Puzzle[];
+	let puzzles_val: IPuzzle[];
 	puzzles.subscribe((value) => (puzzles_val = value));
 
 	const handleCreatePuzzle = () => {
-		puzzles.update((prev) => [createPuzzle('new name', 'newer description'), ...prev]);
+		let new_puzzle = createPuzzle();
+		puzzles.update((prev) => [new_puzzle, ...prev]);
+		selected_puzzle.set(new_puzzle);
+	};
+
+	const handleSelectPuzzle = (puzzle: IPuzzle) => {
+		selected_puzzle.set(puzzle);
 	};
 </script>
 
@@ -26,12 +32,14 @@
 	<ScrollArea>
 		<div class="puzzles-list">
 			{#each puzzles_val as puzzle}
-				<Card.Root>
-					<Card.Header>
-						<Card.Title>{puzzle.name}</Card.Title>
-						<Card.Description>{puzzle.description}</Card.Description>
-					</Card.Header>
-				</Card.Root>
+				<Button
+					variant="ghost"
+					on:click={() => {
+						handleSelectPuzzle(puzzle);
+					}}
+				>
+					{puzzle.name}
+				</Button>
 			{/each}
 		</div>
 	</ScrollArea>
