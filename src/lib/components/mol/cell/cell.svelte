@@ -3,6 +3,7 @@
 	export let disabled = false;
 	export let clueNumber: string | undefined = undefined;
 	export let id: string;
+	export let value: string;
 </script>
 
 {#if disabled}
@@ -21,6 +22,7 @@
 			class="h-20 w-20 bg-slate-100 text-center text-5xl uppercase text-slate-900 outline-none ring-1 ring-slate-900/5 selection:bg-transparent hover:bg-slate-200 focus:bg-slate-300 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700 dark:focus:bg-slate-600"
 			maxlength={maxLength}
 			autoComplete="off"
+			bind:value
 		/>
 	</div>
 {/if}

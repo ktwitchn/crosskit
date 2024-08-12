@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import * as Card from '$lib/components/ui/card';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { createPuzzle } from '$lib/helpers/puzzlehelper';
-	import { puzzles, selected_puzzle, type IPuzzle } from '$lib/stores/puzzles';
+	import { puzzles, selected_puzzle } from '$lib/stores/puzzles';
+	import type { IPuzzle } from '$lib/types/puzzle.types';
 
 	let puzzles_val: IPuzzle[];
 	puzzles.subscribe((value) => (puzzles_val = value));

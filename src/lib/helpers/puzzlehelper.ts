@@ -1,5 +1,5 @@
-import type { ICell, IPuzzle } from '$lib/stores/puzzles';
 import { puzzles } from '$lib/stores/puzzles';
+import type { ICell, IPuzzle } from '$lib/types/puzzle.types';
 
 let puzzles_value: IPuzzle[];
 puzzles.subscribe((value) => {

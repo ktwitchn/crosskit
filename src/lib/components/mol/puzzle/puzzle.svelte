@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { selected_puzzle, type IPuzzle } from '$lib/stores/puzzles';
+	import { selected_puzzle } from '$lib/stores/puzzles';
+	import type { IPuzzle } from '$lib/types/puzzle.types';
 	import { Cells } from '../cells';
 	let puzzle_val: IPuzzle;
 	selected_puzzle.subscribe((value) => {
