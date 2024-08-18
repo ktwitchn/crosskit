@@ -6,7 +6,7 @@
 
 <div class="col-auto grid grid-flow-row grid-cols-5 justify-center gap-2 caret-transparent">
 	{#each cells as cell}
-		<Cell clueNumber={cell.clueNumber} id={cell.id} disabled={cell.disabled} value={cell.value}
+		<Cell clue_number={cell.clue_number} id={cell.id} disabled={cell.disabled} value={cell.value}
 		></Cell>
 	{/each}
 </div>

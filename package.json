@@ -1,6 +1,9 @@
 {
-	"name": "cross",
-	"version": "0.0.1",
+	"name": "cross-kit",
+	"version": "0.0.2",
+	"author": {
+		"name": "Kenny Twitchell"
+	},
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -28,6 +31,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@vercel/postgres": "^0.9.0",
 		"bits-ui": "^0.21.13",
 		"clsx": "^2.1.1",
 		"mode-watcher": "^0.4.1",
