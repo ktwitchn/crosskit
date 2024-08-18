@@ -7,14 +7,21 @@ export type IPuzzle = {
 };
 
 export type IClue = {
-	number: string;
+	// serial value in pg
+	id: number;
+	puzzle_id: string;
+	number: number;
 	value: string;
 	direction: 'across' | 'down';
 };
 
 export type ICell = {
-	id: string;
+	// Serial value in pg
+	id: number;
+	// col and row location of the cell
+	location: string;
+	puzzle_id: string;
 	value: string;
 	disabled: boolean;
-	clueNumber: string | undefined;
+	clue_number: number | undefined;
 };

@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { createPuzzle } from '$lib/helpers/puzzlehelper';
-	import { puzzles, selected_puzzle } from '$lib/stores/puzzles';
+	import { createDummyPuzzle } from '$lib/helpers/puzzlehelper';
+	import { createPuzzle } from '$lib/api';
 	import type { IPuzzle } from '$lib/types/puzzle.types';
+	import { fly } from 'svelte/transition';
 
-	let puzzles_val: IPuzzle[];
-	puzzles.subscribe((value) => (puzzles_val = value));
+	export let puzzles: IPuzzle[];
 
-	const handleCreatePuzzle = () => {
-		let new_puzzle = createPuzzle();
-		puzzles.update((prev) => [new_puzzle, ...prev]);
-		selected_puzzle.set(new_puzzle);
-	};
-
-	const handleSelectPuzzle = (puzzle: IPuzzle) => {
-		selected_puzzle.set(puzzle);
+	const handleCreatePuzzle = async () => {
+		const puzzle = createDummyPuzzle();
+		try {
+			const newPuzzle = await createPuzzle(puzzle);
+			puzzles = [newPuzzle, ...puzzles];
+		} catch (e) {
+			console.error(e);
+		}
 	};
 </script>
 
@@ -31,15 +31,12 @@
 
 	<ScrollArea>
 		<div class="puzzles-list">
-			{#each puzzles_val as puzzle}
-				<Button
-					variant="ghost"
-					on:click={() => {
-						handleSelectPuzzle(puzzle);
-					}}
-				>
-					{puzzle.name}
-				</Button>
+			{#each puzzles as puzzle (puzzle.id)}
+				<a in:fly={{ y: -30, duration: 600 }} href={'/edit/' + puzzle.id}>
+					<Button variant="ghost">
+						{puzzle.name}
+					</Button>
+				</a>
 			{/each}
 		</div>
 	</ScrollArea>
@@ -54,6 +51,7 @@
 		min-width: 15em;
 	}
 	.puzzles-list {
+		position: relative;
 		height: 90vh;
 		display: flex;
 		flex-direction: column;
