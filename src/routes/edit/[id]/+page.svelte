@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Puzzle } from '$lib/components/mol/puzzle';
+	import { Puzzle } from '$lib/components/pzlr/puzzle';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -15,6 +15,6 @@
 		display: flex;
 		gap: 1em;
 		padding: 1em;
-		justify-content: space-between;
+		justify-content: center;
 	}
 </style>

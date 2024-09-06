@@ -18,3 +18,19 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## UI
+
+This uses a shadcn svelte component library
+
+```bash
+npx shadcn-svelte@latest add ...
+```
+
+## Icons
+
+```typescript
+import { Moon } from 'lucide-svelte';
+
+<Moon />
+```

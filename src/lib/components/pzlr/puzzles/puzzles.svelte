@@ -26,14 +26,23 @@
 		>
 			Puzzles
 		</h2>
-		<Button on:click={handleCreatePuzzle}>New</Button>
+		<Button
+			size="sm"
+			on:click={handleCreatePuzzle}>Create</Button
+		>
 	</div>
 
 	<ScrollArea>
 		<div class="puzzles-list">
 			{#each puzzles as puzzle (puzzle.id)}
-				<a in:fly={{ y: -30, duration: 600 }} href={'/edit/' + puzzle.id}>
-					<Button variant="ghost">
+				<a
+					in:fly={{ y: -30, duration: 600 }}
+					href={'/edit/' + puzzle.id}
+				>
+					<Button
+						variant="ghost"
+						class="w-full"
+					>
 						{puzzle.name}
 					</Button>
 				</a>
