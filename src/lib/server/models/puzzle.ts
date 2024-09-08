@@ -8,7 +8,9 @@ export async function getPuzzle(id: string): Promise<IPuzzle | null> {
 		await client.query('BEGIN');
 		const puzzle_resp = await client.query('SELECT * FROM puzzles WHERE id = $1', [id]);
 		const puzzle = puzzle_resp.rows[0];
-		const cells_resp = await client.query('SELECT * FROM cells WHERE puzzle_id = $1', [id]);
+		const cells_resp = await client.query('SELECT * FROM cells WHERE puzzle_id = $1 ORDER BY id', [
+			id
+		]);
 		const clues_resp = await client.query('SELECT * FROM clues WHERE puzzle_id = $1', [id]);
 		await client.query('COMMIT');
 		return <IPuzzle>{
@@ -74,6 +76,51 @@ export async function addPuzzle(puzzle: IPuzzle): Promise<IPuzzle> {
 
 		await client.query('COMMIT');
 		return newPuzzle;
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw e;
+	} finally {
+		client.release();
+	}
+}
+
+/**
+ * Updates an existing puzzle in the db
+ * @param puzzle
+ * @returns Updated puzzle object
+ */
+export async function savePuzzle(puzzle: IPuzzle): Promise<IPuzzle> {
+	const { id, name, description, clues, cells } = puzzle;
+	// Start a transaction
+	const client = await query.getClient();
+	try {
+		await client.query('BEGIN');
+
+		// Update puzzle
+		const result = await client.query(
+			'UPDATE puzzles SET name = $2, description = $3 WHERE id = $1 RETURNING *',
+			[id, name, description]
+		);
+		const updatedPuzzle = result.rows[0];
+
+		// Update cells
+		for (const cell of cells) {
+			await client.query(
+				'UPDATE cells SET value = $3, disabled = $4, clue_number = $5 WHERE puzzle_id = $1 AND location = $2',
+				[id, cell.location, cell.value, cell.disabled, cell.clue_number]
+			);
+		}
+
+		// Update clues
+		for (const clue of clues) {
+			await client.query(
+				'UPDATE clues SET value = $3, direction = $4 WHERE puzzle_id = $1 AND number = $2',
+				[id, clue.number, clue.value, clue.direction]
+			);
+		}
+
+		await client.query('COMMIT');
+		return updatedPuzzle;
 	} catch (e) {
 		await client.query('ROLLBACK');
 		throw e;
