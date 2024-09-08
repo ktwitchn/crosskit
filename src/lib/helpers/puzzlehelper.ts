@@ -7,7 +7,8 @@ export const createDummyPuzzle = () => {
 		id: crypto.randomUUID(),
 		name: 'unnamed',
 		clues,
-		cells
+		cells,
+		description: null
 	};
 };
 

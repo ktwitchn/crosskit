@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Puzzle } from '$lib/components/pzlr/puzzle';
-	import { unsaved_puzzle, unsaved_state } from '$lib/stores/puzzles';
+	import { selected_cell, unsaved_puzzle, unsaved_state } from '$lib/stores/puzzles';
 	import type { PageData } from './$types';
 	import Toolbar from '$lib/components/pzlr/toolbar/toolbar.svelte';
 
@@ -13,6 +13,8 @@
 			unsaved_state.set(val !== puzzle);
 		});
 		unsaved_puzzle.set(puzzle);
+		// navigating here for the first time sets the selected cell to null
+		selected_cell.set(null);
 	}
 </script>
 

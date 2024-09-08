@@ -21,11 +21,7 @@
 
 <div class="puzzles-container">
 	<div class="flex justify-between">
-		<h2
-			class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
-		>
-			Puzzles
-		</h2>
+		<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight">My puzzles</h3>
 		<Button
 			size="sm"
 			on:click={handleCreatePuzzle}>Create</Button
@@ -41,7 +37,7 @@
 				>
 					<Button
 						variant="ghost"
-						class="w-full"
+						class="w-full justify-start"
 					>
 						{puzzle.name}
 					</Button>
@@ -56,20 +52,15 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
-		width: 100%;
-		min-width: 15em;
+		position: relative;
+		max-width: 15em;
 	}
 	.puzzles-list {
 		position: relative;
-		height: 90vh;
+		height: 80vh;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5em;
 		margin-right: 1em;
-	}
-	@media screen and (min-width: 550px) {
-		.puzzles-container {
-			width: 25%;
-		}
 	}
 </style>

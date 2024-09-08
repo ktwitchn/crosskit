@@ -18,10 +18,6 @@
 			});
 		}
 	};
-	const handleEdit = () => {
-		console.log(edit);
-		edit = !edit;
-	};
 </script>
 
 {#if unsaved_puz === null}
@@ -41,7 +37,7 @@
 			<Button
 				variant="ghost"
 				size="icon"
-				on:click={handleEdit}
+				on:click={() => (edit = !edit)}
 			>
 				{#if !edit}
 					<Edit color="gray" />
@@ -58,13 +54,13 @@
 
 <style>
 	.puzzle-area-container {
-		min-width: 430px;
+		min-width: 416px;
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
 	}
 	.title {
 		display: flex;
-		gap: 1em;
+		gap: 0.5em;
 	}
 </style>
