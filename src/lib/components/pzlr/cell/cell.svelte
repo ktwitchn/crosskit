@@ -1,29 +1,51 @@
 <script lang="ts">
+	import { selected_cell } from '$lib/stores/puzzles';
 	import { createEventDispatcher } from 'svelte';
 	import type { FocusEventHandler, FormEventHandler } from 'svelte/elements';
 	let maxLength = 1;
+	export let puzzle_id: string;
 	export let disabled = false;
 	export let clue_number: number | undefined;
 	export let id: number;
 	export let value: string;
+	export let location: string;
 
 	const dispatch = createEventDispatcher();
 
 	const onInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const newValue = event.currentTarget.value;
 		value = newValue; // Update the local value
-		dispatch('updateValue', { id, newValue });
+		dispatch('updateValue', { id, puzzle_id, value, disabled, clue_number, location });
 	};
-	const onFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+	const onFocus: FocusEventHandler<HTMLInputElement | HTMLDivElement> = (event) => {
 		const target = event.currentTarget;
+		selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
 		setTimeout(() => {
-			target.select();
+			if (target instanceof HTMLInputElement) {
+				// If it is an HTMLInputElement, call select()
+				target.select();
+			}
 		}, 100);
+	};
+	const onClick = (event: MouseEvent) => {
+		selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
+	};
+	const onKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
+		}
 	};
 </script>
 
 {#if disabled}
-	<div class="h-20 w-20 bg-slate-900 dark:bg-slate-400"></div>
+	<div
+		class="h-20 w-20 bg-slate-900 dark:bg-slate-400"
+		on:click={onClick}
+		on:keydown={onKeydown}
+		on:focus={onFocus}
+		role="button"
+		tabindex="0"
+	></div>
 {:else}
 	<div class="relative">
 		{#if clue_number}
