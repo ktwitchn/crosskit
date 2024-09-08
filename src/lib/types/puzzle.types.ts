@@ -1,7 +1,7 @@
 export type IPuzzle = {
 	id: string;
 	name: string;
-	description?: string;
+	description: string | null;
 	clues: IClue[];
 	cells: ICell[];
 };
