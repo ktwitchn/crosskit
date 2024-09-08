@@ -1,5 +1,4 @@
-import { puzzles } from '$lib/stores/puzzles';
-import type { ICell, IClue, IPuzzle } from '$lib/types/puzzle.types';
+import type { ICell, IClue } from '$lib/types/puzzle.types';
 
 export const createDummyPuzzle = () => {
 	let cells = initializeCells(5, 5);
@@ -45,4 +44,52 @@ export const initalizeClues = (cells: ICell[]): IClue[] => {
 		});
 	}
 	return newClues;
+};
+
+export const renumberCells = (cells: ICell[], rows: number) => {
+	const renumberedCells: ICell[] = [];
+	let currentClueNumber = 1;
+
+	for (let row = 1; row <= rows; row++) {
+		let foundLeftmostColumn = false; // Track if the leftmost column is found in the current row
+		for (let col = 1; col <= cells.length / rows; col++) {
+			const cellLocation = `c${col}-r${row}`;
+			const isTopRow = row === 1;
+			const isLeftmostColumn = col === 1;
+			const isDisabled = cells.some((cell) => cell.location === cellLocation && cell.disabled);
+
+			const aboveCellLocation = `c${col}-r${row - 1}`;
+			const leftCellLocation = `c${col - 1}-r${row}`;
+			const isAboveCellDisabled = cells.some(
+				(cell) => cell.location === aboveCellLocation && cell.disabled
+			);
+			const isLeftCellDisabled = cells.some(
+				(cell) => cell.location === leftCellLocation && cell.disabled
+			);
+			if (
+				!isDisabled &&
+				(isTopRow ||
+					isLeftmostColumn ||
+					!foundLeftmostColumn ||
+					(!isLeftCellDisabled && isAboveCellDisabled))
+			) {
+				let temp = cells.find((cell) => cell.location === cellLocation);
+				if (temp) renumberedCells.push({ ...temp, clue_number: currentClueNumber });
+				currentClueNumber++;
+
+				if (!foundLeftmostColumn) {
+					// only number the next left most
+					foundLeftmostColumn = true;
+				}
+				if (isLeftmostColumn) {
+					foundLeftmostColumn = true; // Mark that the leftmost column is found in this row
+				}
+			} else {
+				let temp = cells.find((cell) => cell.location === cellLocation);
+				if (temp) renumberedCells.push({ ...temp, clue_number: undefined });
+			}
+		}
+	}
+
+	return renumberedCells;
 };
