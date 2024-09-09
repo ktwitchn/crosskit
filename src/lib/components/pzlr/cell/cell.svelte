@@ -39,7 +39,7 @@
 
 {#if disabled}
 	<div
-		class="h-20 w-20 bg-slate-900 dark:bg-slate-400"
+		class="h-16 w-16 bg-slate-900 dark:bg-slate-400"
 		on:click={onClick}
 		on:keydown={onKeydown}
 		on:focus={onFocus}
@@ -57,7 +57,7 @@
 		<input
 			type="text"
 			id={id.toString()}
-			class="h-20 w-20 bg-slate-100 text-center text-5xl uppercase text-slate-900 outline-none ring-1 ring-slate-900/5 selection:bg-transparent hover:bg-slate-200 focus:bg-slate-300 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700 dark:focus:bg-slate-600"
+			class="h-16 w-16 bg-slate-100 text-center text-5xl uppercase text-slate-900 outline-none ring-1 ring-slate-900/5 selection:bg-transparent hover:bg-slate-200 focus:bg-slate-300 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700 dark:focus:bg-slate-600"
 			maxlength={maxLength}
 			autoComplete="off"
 			bind:value

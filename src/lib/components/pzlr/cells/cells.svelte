@@ -27,8 +27,8 @@
 <style>
 	.cellsContainer {
 		/* TODO make these height and widths dynamic based on cell size */
-		height: 416px; /* (cell (80px) * 5) + (gap (4px) * 4) */
-		width: 416px;
+		height: 336px; /* (cell (64px) * 5) + (gap (4px) * 4) */
+		width: 336px;
 		display: grid;
 		grid-column: auto;
 		grid-auto-flow: row;

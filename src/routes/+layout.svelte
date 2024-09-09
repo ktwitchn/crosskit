@@ -50,7 +50,7 @@
 		height: 100vh;
 		max-height: 100vh;
 		overflow-y: hidden;
-		min-width: 500px;
+		min-width: 400px;
 	}
 	.header {
 		display: flex;

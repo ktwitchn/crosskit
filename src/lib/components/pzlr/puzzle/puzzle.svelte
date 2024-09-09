@@ -54,7 +54,7 @@
 
 <style>
 	.puzzle-area-container {
-		min-width: 416px;
+		min-width: 336px;
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
