@@ -4,6 +4,7 @@
 	import { ModeWatcher, toggleMode, mode } from 'mode-watcher';
 	import { Moon, Sun, PanelLeftClose, PanelLeftOpen } from 'lucide-svelte';
 	import { menu_open } from '$lib/stores/navigation';
+	import { onMount } from 'svelte';
 
 	$: menu = $menu_open;
 </script>
@@ -16,7 +17,7 @@
 			<Button
 				size="icon"
 				variant="ghost"
-				on:click={() => menu_open.update((prev) => !prev)}
+				on:click={() => menu_open.set(!menu)}
 			>
 				{#if menu}
 					<PanelLeftClose />

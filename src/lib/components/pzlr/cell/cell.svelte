@@ -1,38 +1,35 @@
 <script lang="ts">
 	import { selected_cell } from '$lib/stores/puzzles';
+	import type { ICell } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import type { FocusEventHandler, FormEventHandler } from 'svelte/elements';
 	let maxLength = 1;
-	export let puzzle_id: string;
-	export let disabled = false;
-	export let clue_number: number | undefined;
-	export let id: number;
+	export let cell: ICell;
 	export let value: string;
-	export let location: string;
+	$: ({ id, disabled, clue_number } = cell);
 
 	const dispatch = createEventDispatcher();
 
 	const onInput: FormEventHandler<HTMLInputElement> = (event) => {
 		const newValue = event.currentTarget.value;
 		value = newValue; // Update the local value
-		dispatch('updateValue', { id, puzzle_id, value, disabled, clue_number, location });
+		dispatch('updateValue', { ...cell, value });
 	};
 	const onFocus: FocusEventHandler<HTMLInputElement | HTMLDivElement> = (event) => {
 		const target = event.currentTarget;
-		selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
+		selected_cell.set(cell);
 		setTimeout(() => {
 			if (target instanceof HTMLInputElement) {
-				// If it is an HTMLInputElement, call select()
 				target.select();
 			}
 		}, 100);
 	};
 	const onClick = (event: MouseEvent) => {
-		selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
+		selected_cell.set(cell);
 	};
 	const onKeydown = (event: KeyboardEvent) => {
 		if (event.key === 'Enter' || event.key === ' ') {
-			selected_cell.set({ id, puzzle_id, value, disabled, clue_number, location });
+			selected_cell.set(cell);
 		}
 	};
 </script>

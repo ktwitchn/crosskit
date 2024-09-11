@@ -23,5 +23,6 @@ export type ICell = {
 	puzzle_id: string;
 	value: string;
 	disabled: boolean;
-	clue_number: number | undefined;
+	clue_number: number | null;
+	shared_clue: boolean;
 };

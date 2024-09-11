@@ -43,7 +43,7 @@
 </script>
 
 {#if current_cell || $unsaved_state}
-	<div class="container">
+	<div class="toolbarContainer">
 		<div>{current_cell?.location ?? 'Select a cell'} {current_cell?.value ?? ''}</div>
 		<div>
 			<Button
@@ -66,7 +66,7 @@
 {/if}
 
 <style>
-	.container {
+	.toolbarContainer {
 		display: flex;
 		gap: 1em;
 		justify-content: space-between;
@@ -74,5 +74,6 @@
 		padding: 1em;
 		border: 1px solid lightgray;
 		border-radius: 0.5em;
+		width: 100%;
 	}
 </style>

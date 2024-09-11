@@ -13,12 +13,8 @@
 <div class="cellsContainer">
 	{#each unsaved_cells as cell}
 		<Cell
-			location={cell.location}
-			puzzle_id={cell.puzzle_id}
-			clue_number={cell.clue_number}
-			id={cell.id}
-			disabled={cell.disabled}
 			value={cell.value}
+			{cell}
 			on:updateValue={updateCellValue}
 		></Cell>
 	{/each}
