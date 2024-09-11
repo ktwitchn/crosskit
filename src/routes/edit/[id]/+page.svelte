@@ -3,6 +3,7 @@
 	import { selected_cell, unsaved_puzzle, unsaved_state } from '$lib/stores/puzzles';
 	import type { PageData } from './$types';
 	import Toolbar from '$lib/components/pzlr/toolbar/toolbar.svelte';
+	import { Clues } from '$lib/components/pzlr/clues';
 
 	export let data: PageData;
 	$: puzzle = data?.puzzle ?? null;
@@ -19,6 +20,7 @@
 </script>
 
 <div class="container">
+	<Clues />
 	<div class="wrapper">
 		<Puzzle></Puzzle>
 		<Toolbar></Toolbar>
@@ -29,6 +31,7 @@
 	.container {
 		display: flex;
 		padding: 1em;
+		gap: 1em;
 		justify-content: center;
 	}
 	.wrapper {
@@ -36,5 +39,12 @@
 		flex-direction: column;
 		gap: 1em;
 		align-items: end;
+	}
+	@media screen and (max-width: 1050px) {
+		.container {
+			flex-direction: column-reverse;
+			align-items: center;
+			justify-content: flex-end;
+		}
 	}
 </style>

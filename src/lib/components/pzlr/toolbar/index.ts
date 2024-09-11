@@ -1,1 +1,3 @@
-export * from './toolbar.svelte';
+import Toolbar from './toolbar.svelte';
+
+export { Toolbar };

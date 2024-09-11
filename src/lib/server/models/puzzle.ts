@@ -61,8 +61,8 @@ export async function addPuzzle(puzzle: IPuzzle): Promise<IPuzzle> {
 		// Add cells
 		for (const cell of cells) {
 			await client.query(
-				'INSERT INTO cells (puzzle_id, location, value, disabled, clue_number) VALUES ($1, $2, $3, $4, $5)',
-				[id, cell.location, cell.value, cell.disabled, cell.clue_number]
+				'INSERT INTO cells (puzzle_id, location, value, disabled, clue_number, shared_clue) VALUES ($1, $2, $3, $4, $5, $6)',
+				[id, cell.location, cell.value, cell.disabled, cell.clue_number, cell.shared_clue]
 			);
 		}
 
@@ -106,15 +106,17 @@ export async function savePuzzle(puzzle: IPuzzle): Promise<IPuzzle> {
 		// Update cells
 		for (const cell of cells) {
 			await client.query(
-				'UPDATE cells SET value = $3, disabled = $4, clue_number = $5 WHERE puzzle_id = $1 AND location = $2',
-				[id, cell.location, cell.value, cell.disabled, cell.clue_number]
+				'UPDATE cells SET value = $3, disabled = $4, clue_number = $5, shared_clue = $6 WHERE puzzle_id = $1 AND location = $2',
+				[id, cell.location, cell.value, cell.disabled, cell.clue_number, cell.shared_clue]
 			);
 		}
 
-		// Update clues
+		// Upsert clues
+		await client.query('DELETE FROM clues WHERE puzzle_id = $1', [id]);
+
 		for (const clue of clues) {
 			await client.query(
-				'UPDATE clues SET value = $3, direction = $4 WHERE puzzle_id = $1 AND number = $2',
+				'INSERT INTO clues (puzzle_id, number, value, direction) VALUES ($1, $2, $3, $4)',
 				[id, clue.number, clue.value, clue.direction]
 			);
 		}
